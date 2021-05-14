@@ -20,6 +20,32 @@ Command line options:
 
 The script spits out addresses and related privatekey (raw hex form), one per line.
 
+## Search for multiple matches
+
+Encode the various strings to search for with | as separator.  
+Ex:   
+`python3 vanity.py --string="Egg|3gg"` will search for both "Egg" and "3gg". Add as many as you need.
+
+## Mine for BIP32 mnemonics
+
+Way less optimized, slower and less efficient by nature (half entropy).  
+Uses Stacy bot derive path.
+
+Ex:  
+`python3 vanity_bip.py --string="rapt" --indices=5`
+
+Command line options:  
+- same as vanity.py, plus:  
+- `--indices=2` number of indices to test per mnemonic, default 2 (Stacy bot uses 2 first indices)
+
+# Warnings
+
+If you require case sensitive matching, search will be way longer, and some strings you just can't have.  
+For instance you can have a L but no l. You can Have o (the letter, lowercap) but no O (upper case) and no 0 (the number).  
+
+Full charset is `123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz`  
+This is part of base58 encoding, no way around that.
+
 ## Licence
 
 Affero GPL  
