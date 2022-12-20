@@ -16,8 +16,6 @@ import binascii
 from concurrent.futures import ProcessPoolExecutor
 from coincurve import PrivateKey
 import base58
-
-# TODO: click would be a better choice than tornado. I'm lazy.
 from tornado.options import define, options
 
 define("processes", default=4, help="Process count to start (default 4)", type=int)
