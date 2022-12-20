@@ -1,3 +1,9 @@
+Wizz's Changes:
+- Parameter --start to search for string at the start of the address
+- Show number of addresses generated per sec
+- Show time estimation to find one with pattern and parameters (todo)
+
+
 # rtm-vanity
 A vanity address generator for Raptoreum - RTM
 
@@ -15,6 +21,7 @@ The longer the string the longer the search.
 
 Command line options:  
 - `--processes=4` number of processes to use, default 4
+- `--start search for string at the start of the address (default false)"
 - `--case=false` or `--case=true` case sensitive search? (way longer, false by default)
 - `--max=100` max number of hits per process.
 
