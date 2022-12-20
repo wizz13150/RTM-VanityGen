@@ -7,22 +7,25 @@ as long as you release the source code and modifications.
 """
 
 
+
 from os import urandom
 from time import time
 import hashlib
-# from secrets import token_hex
-from multiprocessing import Process
+import time
+import binascii
+from concurrent.futures import ProcessPoolExecutor
 from coincurve import PrivateKey
 import base58
 
 # TODO: click would be a better choice than tornado. I'm lazy.
 from tornado.options import define, options
 
-
 define("processes", default=4, help="Process count to start (default 4)", type=int)
 define("string", help="String to find in the address", type=str)
+define("start", default=False, help="search for string at the start of the address (default false)", type=bool)
 define("case", default=False, help="be case sensitive (default false)", type=bool)
 define("max", default=100, help="max hit per process (default 100)", type=int)
+
 
 alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 
@@ -32,12 +35,13 @@ class Key:
     def __init__(self, seed):
         key = PrivateKey.from_hex(seed)
         self.public_key = key.public_key.format(compressed=True).hex()
-        self.key = key.to_hex()  # == seed
+        self.key = key.to_hex
+
         self.address = self.address()
 
     def identifier(self):
         """Returns double hash of pubkey as per btc standards"""
-        return hashlib.new('ripemd160', hashlib.sha256(bytes.fromhex(self.public_key)).digest()).digest()
+        return hashlib.new('ripemd160', hashlib.sha256(binascii.unhexlify(self.public_key)).digest()).digest()
 
     def address(self):
         """Returns properly serialized address from pubkey as per btc standards"""
@@ -46,22 +50,37 @@ class Key:
         return base58.b58encode(vh160 + chk).decode('utf-8')
 
 
-def find_it(search_for: list):
+def find_it(search_for: list, start: bool):
     found = 0
+    address_count = 0
+    start_time = time.time()
     while True:
         pk = urandom(32).hex()
-        # pk = token_hex(32)  # +50% time, but supposed to be cryptographically secure
         key = Key(pk)
         address = key.address
+        address_count += 1
         if not options.case:
             address = address.lower()
-        for string in search_for:
-            if string in address:
-                print(key.address, pk)
+        if start:
+            if address.startswith(options.string):
+                print(f"\n{key.address}")
+                print(pk)
                 found += 1
                 if found > options.max:
                     return
-
+        else:
+            for string in search_for:
+                if string in address:
+                    print(f"\n{key.address}")
+                    print(pk)
+                    found += 1
+                    if found > options.max:
+                        return
+        current_time = time.time()
+        if current_time - start_time > 1:
+            print(f"\r{address_count} addresses generated per second...", end="")
+            address_count = 0
+            start_time = current_time
 
 if __name__ == "__main__":
     options.parse_command_line()
@@ -72,25 +91,21 @@ if __name__ == "__main__":
         print("Case InsEnsITivE")
     else:
         print("Case sensitive")
-    # Check charset is ok ? not easy with case insensitive...
-
+        
+    print(f"{options.processes} threads used")
+    if options.start:
+        print("Search at beginning of address")
+    else:
+        print("Search anywhere in the address")
+        
     processes = []
     if "|" in options.string:
         search_for = options.string.split("|")
     else:
         search_for = [options.string]
-    for i in range(options.processes):
-        p = Process(target=find_it, args=(search_for, ))
-        p.start()
-        processes.append(p)
+    with ProcessPoolExecutor(max_workers=options.processes) as executor:
+        for i in range(options.processes):
+            executor.submit(find_it, search_for, options.start)
 
     for p in processes:
         p.join()
-
-    """
-    start = time()
-    for i in range(100000):
-        pk = urandom(32).hex()
-        key = Key(pk)
-    print(time() - start)
-    """
