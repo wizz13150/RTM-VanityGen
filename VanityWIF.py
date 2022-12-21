@@ -61,10 +61,13 @@ def find_it(search_for: list, start: bool):
     found = 0
     address_count = 0
     start_time = time.time()
-    invalid_chars = []
     for char in options.string:
-        if char not in alphabet and char != "|":
-            invalid_chars.append(char)
+        if options.case:
+            if char not in alphabet and char != "|":
+                invalid_chars.append(char)
+        else:
+            if char.lower() not in alphabet.lower() and char != "|":
+                invalid_chars.append(char)
     if invalid_chars:
         print(f"Characters '{', '.join(invalid_chars)}' not allowed, try again :'( See : '{alphabet}'.")
         return
