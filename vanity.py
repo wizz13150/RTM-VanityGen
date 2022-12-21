@@ -65,7 +65,6 @@ def find_it(search_for: list, start: bool):
     for char in options.string:
         if char not in alphabet and char != "|":
             invalid_chars.append(char)
-
     if invalid_chars:
         print(f"Characters '{', '.join(invalid_chars)}' not allowed, try again :'( See : '{alphabet}'.")
         return
