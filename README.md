@@ -1,6 +1,6 @@
 Wizz's Changes:
 - Parameter --start to search for string at the start of the address.
-- Show number of addresses generated per sec, for all threads. (~320K/sec for a Rysen 3900x with 24 threads)
+- Show number of addresses generated per sec, for all threads. (~250K/sec for a Rysen 3900x with 24 threads)
 - Check if every pattern's characters are allowed or not.
 - Add conversion to Wallet Import Format, change output format to show: address, hexkey, wifkey.
 - ToDo - Search Uppercase only:
