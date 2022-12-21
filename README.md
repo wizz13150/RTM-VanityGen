@@ -5,7 +5,7 @@ Wizz's Changes:
 - Search Uppercase only:
     Edit Vanity.py :
     Add line 64 : if address.isupper() == True:
-    Comment line 65 + 66
+    Comment line 65 to 74
 
 
 # rtm-vanity
