@@ -4,8 +4,8 @@ Wizz's Changes:
 - Check if pattern characters are allowed or not.
 - Search Uppercase only:
     Edit Vanity.py :
-    Add line 60 : if address.isupper() == True:
-    Comment line 61 + 62
+    Add line 64 : if address.isupper() == True:
+    Comment line 65 + 66
 
 
 # rtm-vanity
