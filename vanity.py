@@ -76,7 +76,7 @@ def find_it(search_for: list, start: bool):
                         return
         current_time = time.time()
         if current_time - start_time > 1:
-            print(f"\r{address_count} addresses generated per second...", end="")
+            print(f"\r{address_count * options.processes} addresses generated per second...", end="")
             address_count = 0
             start_time = current_time
 
