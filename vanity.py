@@ -50,7 +50,7 @@ class Key:
 
     def convert_to_wif(self) -> str:
         """Convertit la clé privée au format WIF en utilisant le préfixe Raptoreum."""
-        wif_prefix = b'\x3c'  # Préfixe pour Raptoreum
+        wif_prefix = b'\x80'  # Préfixe pour Raptoreum
         wif_key = wif_prefix + binascii.unhexlify(self.key)
         wif = base58.b58encode_check(wif_key).decode('utf-8')
         return wif
@@ -61,10 +61,14 @@ def find_it(search_for: list, start: bool):
     found = 0
     address_count = 0
     start_time = time.time()
+    invalid_chars = []
     for char in options.string:
-        if char not in alphabet:
-            print(f"Character '{char}' not allowed, see : '{alphabet}'.")
-            return
+        if char not in alphabet and char != "|":
+            invalid_chars.append(char)
+
+    if invalid_chars:
+        print(f"Characters '{', '.join(invalid_chars)}' not allowed, try again :'( See : '{alphabet}'.")
+        return
     while True:
         pk = urandom(32).hex()
         key = Key(pk)
@@ -74,6 +78,7 @@ def find_it(search_for: list, start: bool):
             address = address.lower()
         if start:
             if address.startswith(options.string):
+                print("\n" + "-" * 20)
                 print(f"\nAddress : {key.address}")
                 print(f"HEX     : {pk}")
                 print(f"WIF     : {key.wif}")
@@ -83,6 +88,7 @@ def find_it(search_for: list, start: bool):
         else:
             for string in search_for:
                 if string in address:
+                    print("\n" + "-" * 20)
                     print(f"\nAddress : {key.address}")
                     print(f"HEX     : {pk}")
                     print(f"WIF     : {key.wif}")
