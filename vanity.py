@@ -52,6 +52,10 @@ def find_it(search_for: list, start: bool):
     found = 0
     address_count = 0
     start_time = time.time()
+    for char in options.string:
+        if char not in alphabet:
+            print(f"Character '{char}' not allowed, see : '{alphabet}'.")
+            return
     while True:
         pk = urandom(32).hex()
         key = Key(pk)
