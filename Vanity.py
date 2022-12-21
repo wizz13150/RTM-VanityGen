@@ -34,8 +34,6 @@ class Key:
         key = PrivateKey.from_hex(seed)
         self.public_key = key.public_key.format(compressed=True).hex()
         self.key = key.to_hex()
-        self.wif = None
-        self.wif = self.convert_to_wif()  # Conversion au format WIF
         self.address = self.address()
 
     def identifier(self):
