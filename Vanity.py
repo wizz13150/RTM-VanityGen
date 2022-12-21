@@ -62,35 +62,42 @@ def find_it(search_for: list, start: bool):
     if invalid_chars:
         print(f"Characters '{', '.join(invalid_chars)}' not allowed, try again :'( See : '{alphabet}'.")
         return
-    while True:
-        pk = urandom(32).hex()
-        key = Key(pk)
-        address = key.address
-        address_count += 1
-        if not options.case:
-            address = address.lower()
-        if start:
-            if address.startswith(options.string):
-                print("\n" + "-" * 20)
-                print(f"\nAddress : {key.address}")
-                print(f"HEX     : {pk}")
-                found += 1
-                if found > options.max:
-                    return
-        else:
-            for string in search_for:
-                if string in address:
+    with open("KeysFounds.txt", "a") as f:
+        while True:
+            pk = urandom(32).hex()
+            key = Key(pk)
+            address = key.address
+            address_count += 1
+            if not options.case:
+                address = address.lower()
+            if start:
+                if address.startswith(options.string):
                     print("\n" + "-" * 20)
                     print(f"\nAddress : {key.address}")
                     print(f"HEX     : {pk}")
+                    f.write("\n" + "-" * 20)
+                    f.write(f"\nAddress : {key.address}")
+                    f.write(f"HEX     : {pk}")
                     found += 1
                     if found > options.max:
                         return
-        current_time = time.time()
-        if current_time - start_time > 1:
-            print(f"\r{address_count * options.processes} addresses generated per second... ", end="")
-            address_count = 0
-            start_time = current_time
+            else:
+                for string in search_for:
+                    if string in address:
+                        print("\n" + "-" * 20)
+                        print(f"\nAddress : {key.address}")
+                        print(f"HEX     : {pk}")
+                        f.write("\n" + "-" * 20)
+                        f.write(f"\nAddress : {key.address}")
+                        f.write(f"HEX     : {pk}")
+                        found += 1
+                        if found > options.max:
+                            return
+            current_time = time.time()
+            if current_time - start_time > 1:
+                print(f"\r{address_count * options.processes} addresses generated per second... ", end="")
+                address_count = 0
+                start_time = current_time
 
 if __name__ == "__main__":
     options.parse_command_line()
@@ -101,13 +108,13 @@ if __name__ == "__main__":
         print("Case InsEnsITivE")
     else:
         print("Case sensitive")
-        
+
     print(f"{options.processes} threads used")
     if options.start:
         print("Search at beginning of address")
     else:
         print("Search anywhere in the address")
-        
+
     processes = []
     if "|" in options.string:
         search_for = options.string.split("|")
