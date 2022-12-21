@@ -33,19 +33,28 @@ class Key:
     def __init__(self, seed):
         key = PrivateKey.from_hex(seed)
         self.public_key = key.public_key.format(compressed=True).hex()
-        self.key = key.to_hex
-
+        self.key = key.to_hex()
+        self.wif = None
+        self.wif = self.convert_to_wif()  # Conversion au format WIF
         self.address = self.address()
 
     def identifier(self):
-        """Returns double hash of pubkey as per btc standards"""
+        """Renvoie le double hash de la clé publique selon les standards de BTC"""
         return hashlib.new('ripemd160', hashlib.sha256(binascii.unhexlify(self.public_key)).digest()).digest()
 
     def address(self):
-        """Returns properly serialized address from pubkey as per btc standards"""
-        vh160 = int(60).to_bytes(length=1, byteorder="big") + self.identifier()  # raw content
+        """Renvoie l'adresse sérialisée correctement à partir de la clé publique selon les standards de BTC"""
+        vh160 = int(60).to_bytes(length=1, byteorder="big") + self.identifier()  # Contenu brut
         chk = hashlib.sha256(hashlib.sha256(vh160).digest()).digest()[:4]
         return base58.b58encode(vh160 + chk).decode('utf-8')
+
+    def convert_to_wif(self) -> str:
+        """Convertit la clé privée au format WIF en utilisant le préfixe Raptoreum."""
+        wif_prefix = b'\x3c'  # Préfixe pour Raptoreum
+        wif_key = wif_prefix + binascii.unhexlify(self.key)
+        wif = base58.b58encode_check(wif_key).decode('utf-8')
+        return wif
+
 
 
 def find_it(search_for: list, start: bool):
@@ -65,22 +74,24 @@ def find_it(search_for: list, start: bool):
             address = address.lower()
         if start:
             if address.startswith(options.string):
-                print(f"\n{key.address}")
-                print(pk)
+                print(f"\nAddress : {key.address}")
+                print(f"HEX     : {pk}")
+                print(f"WIF     : {key.wif}")
                 found += 1
                 if found > options.max:
                     return
         else:
             for string in search_for:
                 if string in address:
-                    print(f"\n{key.address}")
-                    print(pk)
+                    print(f"\nAddress : {key.address}")
+                    print(f"HEX     : {pk}")
+                    print(f"WIF     : {key.wif}")
                     found += 1
                     if found > options.max:
                         return
         current_time = time.time()
         if current_time - start_time > 1:
-            print(f"\r{address_count * options.processes} addresses generated per second...", end="")
+            print(f"\r{address_count * options.processes} addresses generated per second... ", end="")
             address_count = 0
             start_time = current_time
 
