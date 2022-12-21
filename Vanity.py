@@ -21,7 +21,6 @@ from tornado.options import define, options
 define("processes", default=4, help="Process count to start (default 4)", type=int)
 define("string", help="String to find in the address", type=str)
 define("start", default=False, help="search for string at the start of the address (default false)", type=bool)
-define("upper", default=False, help="only keep addresses in uppercase (default false)", type=bool)
 define("case", default=False, help="be case sensitive (default false)", type=bool)
 define("max", default=100, help="max hit per process (default 100)", type=int)
 
