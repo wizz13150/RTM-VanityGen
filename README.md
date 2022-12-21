@@ -3,7 +3,7 @@ Wizz's Changes:
 - Show number of addresses generated per sec, for all threads. (~320K/sec for a Rysen 3900x with 24 threads)
 - Check if every pattern's characters are allowed or not.
 - Add conversion to Wallet Import Format, change output format to show: address, hexkey, wifkey.
-- Search Uppercase only:
+- ToDo - Search Uppercase only:
 Edit Vanity.py :
 Add line 64 : if address.isupper() == True:
 Comment line 65 to 74
