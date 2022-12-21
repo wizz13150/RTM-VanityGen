@@ -1,6 +1,7 @@
 Wizz's Changes:
 - Parameter --start to search for string at the start of the address.
 - Show number of addresses generated per sec, for all threads.
+- Check if pattern characters are allowed or not.
 - Search Uppercase only:
     Edit Vanity.py :
     Add line 60 : if address.isupper() == True:
