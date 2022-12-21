@@ -1,12 +1,10 @@
 Wizz's Changes:
-- Parameter --start to search for string at the start of the address
-- Show number of addresses generated per sec
-- Counter for all threads
-- Search for MAJ only :
-# Search Uppercase only:
-Edit Vanity.py :
-Add line 56 : if address.isupper() == True:
-Comment line 57 + 58
+- Parameter --start to search for string at the start of the address.
+- Show number of addresses generated per sec, for all threads.
+- Search Uppercase only:
+    Edit Vanity.py :
+    Add line 56 : if address.isupper() == True:
+    Comment line 57 + 58
 
 
 # rtm-vanity
