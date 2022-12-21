@@ -3,9 +3,9 @@ Wizz's Changes:
 - Show number of addresses generated per sec, for all threads. (~320K/sec for a Rysen 3900x with 24 threads)
 - Check if pattern characters are allowed or not.
 - Search Uppercase only:
-    Edit Vanity.py :
-    Add line 64 : if address.isupper() == True:
-    Comment line 65 to 74
+Edit Vanity.py :
+Add line 64 : if address.isupper() == True:
+Comment line 65 to 74
 
 
 # rtm-vanity
