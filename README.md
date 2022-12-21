@@ -5,8 +5,8 @@ Wizz's Changes:
 - Add conversion to Wallet Import Format, change output format to show: address, hexkey, wifkey.
 - ToDo - Search Uppercase only:
 Edit Vanity.py :
-Add line 64 : if address.isupper() == True:
-Comment line 65 to 74
+Add line 73 : if address.isupper() == True:
+Comment lines 74 to 84
 
 
 # rtm-vanity
