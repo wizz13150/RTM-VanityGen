@@ -2,6 +2,7 @@ Wizz's Changes:
 - Parameter --start to search for string at the start of the address.
 - Show number of addresses generated per sec, for all threads. (~320K/sec for a Rysen 3900x with 24 threads)
 - Check if pattern characters are allowed or not.
+- Add WIF conversion, change output format with address, hexkey, wifkey.
 - Search Uppercase only:
 Edit Vanity.py :
 Add line 64 : if address.isupper() == True:
