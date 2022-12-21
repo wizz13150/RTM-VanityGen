@@ -3,8 +3,8 @@ Wizz's Changes:
 - Show number of addresses generated per sec, for all threads.
 - Search Uppercase only:
     Edit Vanity.py :
-    Add line 56 : if address.isupper() == True:
-    Comment line 57 + 58
+    Add line 60 : if address.isupper() == True:
+    Comment line 61 + 62
 
 
 # rtm-vanity
