@@ -7,8 +7,6 @@ as long as you release the source code and modifications.
 """
 
 
-
-
 import hashlib
 import base58
 import time
