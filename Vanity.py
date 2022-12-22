@@ -63,7 +63,7 @@ def find_it(search_for: list, start: bool):
     if invalid_chars:
         print(f"Characters '{', '.join(invalid_chars)}' not allowed, try again :'( See : '{alphabet}'.")
         return
-    with open("Keys5.txt", "a") as f:
+    with open("Keys.txt", "a") as f:
         while True:
             pk = urandom(32).hex()
             key = Key(pk)
