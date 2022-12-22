@@ -7,16 +7,17 @@ as long as you release the source code and modifications.
 """
 
 
-import hashlib
-import base58
-import time
-import binascii
-import subprocess
-from concurrent.futures import ProcessPoolExecutor
-from coincurve import PrivateKey
-from tornado.options import define, options
 from os import urandom
 from time import time
+import hashlib
+import time
+import binascii
+from concurrent.futures import ProcessPoolExecutor
+from coincurve import PrivateKey
+import base58
+from tornado.options import define, options
+import subprocess
+import secrets
 
 
 define("processes", default=4, help="Process count to start (default 4)", type=int)
@@ -27,7 +28,7 @@ define("max", default=100, help="max hit per process (default 100)", type=int)
 
 
 alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
-
+file = "./toto.txt"
 
 class Key:
 
@@ -64,7 +65,7 @@ def find_it(search_for: list, start: bool):
     if invalid_chars:
         print(f"Characters '{', '.join(invalid_chars)}' not allowed, try again :'( See : '{alphabet}'.")
         return
-    with open("Keys.txt", "a") as f:
+    with open(file, "a") as f:
         while True:
             pk = urandom(32).hex()
             key = Key(pk)
@@ -110,14 +111,14 @@ def find_it(search_for: list, start: bool):
                                 return
             current_time = time.time()
             if current_time - start_time > 1:
-                print(f"\r{address_count * options.processes} addresses generated per second... Found:{found} Total:{address_total * options.processes}", end="")
+                print(f"\r{address_count * options.processes} addresses generated per second... Total:{address_total * options.processes}", end="")
                 address_count = 0
                 start_time = current_time
 
 if __name__ == "__main__":
     options.parse_command_line()
-
     print("Looking for '{}'".format(options.string))
+    print(f"Output in {file}")
     if not options.case:
         options.string = options.string.lower()
         print("Case InsEnsITivE")
