@@ -27,7 +27,8 @@ define("max", default=100, help="max hit per process (default 100)", type=int)
 
 
 alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
-file = "./toto.txt"
+file = "./tata.txt"
+
 
 class Key:
 
@@ -73,23 +74,24 @@ def find_it(search_for: list, start: bool):
             address_total += 1
             if not options.case:
                 address = address.lower()
-            if start:
-                if address.startswith(options.string):
-                    found += 1
-                    command = ["./ravencoin-tool/bitcoin-tool", "--input-type", "private-key", "--input-format", "hex", "--public-key-compression", "compressed", "--input", pk, "--network", "ravencoin", "--output-type", "private-key-wif", "--output-format", "base58check"]
-                    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                    if result.returncode == 0:
-                        wif = result.stdout.decode().strip()
-                        print("\n" + "-" * 20)
-                        print(f"\nAddress : {key.address}")
-                        print(f"HEX     : {pk}")
-                        print(f"WIF     : {wif}")
-                        f.write("\n" + "-" * 20)
-                        f.write(f"\nAddress : {key.address}")
-                        f.write(f"\nHEX     : {pk}")
-                        f.write(f"\nWIF     : {wif}")                        
-                        if found > options.max:
-                            return
+            if options.start:
+                for string in search_for:
+                    if address.startswith(string):
+                        found += 1
+                        command = ["./ravencoin-tool/bitcoin-tool", "--input-type", "private-key", "--input-format", "hex", "--public-key-compression", "compressed", "--input", pk, "--network", "ravencoin", "--output-type", "private-key-wif", "--output-format", "base58check"]
+                        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                        if result.returncode == 0:
+                            wif = result.stdout.decode().strip()
+                            print("\n" + "-" * 20)
+                            print(f"\nAddress : {key.address}")
+                            print(f"HEX     : {pk}")
+                            print(f"WIF     : {wif}")
+                            f.write("\n" + "-" * 20)
+                            f.write(f"\nAddress : {key.address}")
+                            f.write(f"\nHEX     : {pk}")
+                            f.write(f"\nWIF     : {wif}")                        
+                            if found > options.max:
+                                return
             else:
                 for string in search_for:
                     if string in address:
