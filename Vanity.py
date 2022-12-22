@@ -13,6 +13,7 @@ from time import time
 import hashlib
 import time
 import binascii
+import subprocess 
 from concurrent.futures import ProcessPoolExecutor
 from coincurve import PrivateKey
 import base58
@@ -62,7 +63,7 @@ def find_it(search_for: list, start: bool):
     if invalid_chars:
         print(f"Characters '{', '.join(invalid_chars)}' not allowed, try again :'( See : '{alphabet}'.")
         return
-    with open("KeysFounds.txt", "a") as f:
+    with open("Keys5.txt", "a") as f:
         while True:
             pk = urandom(32).hex()
             key = Key(pk)
@@ -72,27 +73,39 @@ def find_it(search_for: list, start: bool):
                 address = address.lower()
             if start:
                 if address.startswith(options.string):
-                    print("\n" + "-" * 20)
-                    print(f"\nAddress : {key.address}")
-                    print(f"HEX     : {pk}")
-                    f.write("\n" + "-" * 20)
-                    f.write(f"\nAddress : {key.address}")
-                    f.write(f"HEX     : {pk}")
-                    found += 1
-                    if found > options.max:
-                        return
-            else:
-                for string in search_for:
-                    if string in address:
+                    command = ["./ravencoin-tool/bitcoin-tool", "--input-type", "private-key", "--input-format", "hex", "--public-key-compression", "compressed", "--input", pk, "--network", "ravencoin", "--output-type", "private-key-wif", "--output-format", "base58check"]
+                    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    if result.returncode == 0:
+                        wif = result.stdout.decode().strip()
                         print("\n" + "-" * 20)
                         print(f"\nAddress : {key.address}")
                         print(f"HEX     : {pk}")
+                        print(f"WIF     : {wif}")
                         f.write("\n" + "-" * 20)
                         f.write(f"\nAddress : {key.address}")
-                        f.write(f"HEX     : {pk}")
+                        f.write(f"\nHEX     : {pk}")
+                        f.write(f"\nWIF     : {wif}")
                         found += 1
                         if found > options.max:
                             return
+            else:
+                for string in search_for:
+                    if string in address:
+                        command = ["./ravencoin-tool/bitcoin-tool", "--input-type", "private-key", "--input-format", "hex", "--public-key-compression", "compressed", "--input", pk, "--network", "ravencoin", "--output-type", "private-key-wif", "--output-format", "base58check"]
+                        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                        if result.returncode == 0:
+                            wif = result.stdout.decode().strip()
+                            print("\n" + "-" * 20)
+                            print(f"\nAddress : {key.address}")
+                            print(f"HEX     : {pk}")
+                            print(f"WIF     : {wif}")
+                            f.write("\n" + "-" * 20)
+                            f.write(f"\nAddress : {key.address}")
+                            f.write(f"\nHEX     : {pk}")
+                            f.write(f"\nWIF     : {wif}")
+                            found += 1
+                            if found > options.max:
+                                return
             current_time = time.time()
             if current_time - start_time > 1:
                 print(f"\r{address_count * options.processes} addresses generated per second... ", end="")
