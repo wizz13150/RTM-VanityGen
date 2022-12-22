@@ -17,7 +17,7 @@ Example :
 
     Comment from lines 73 to Else:
     
-    Run `python3 vanity.py --string='R' --processes="xx"`
+    Run `python3 vanity.py --string='R' --processes="xx"` , or run vanity_upper.py
 
 
 # rtm-vanity
