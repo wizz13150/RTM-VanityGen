@@ -51,6 +51,7 @@ class Key:
 def find_it(search_for: list, start: bool):
     found = 0
     address_count = 0
+    address_total = 0
     start_time = time.time()
     invalid_chars = []
     for char in options.string:
@@ -69,10 +70,12 @@ def find_it(search_for: list, start: bool):
             key = Key(pk)
             address = key.address
             address_count += 1
+            address_total += 1
             if not options.case:
                 address = address.lower()
             if start:
                 if address.startswith(options.string):
+                    found += 1
                     command = ["./ravencoin-tool/bitcoin-tool", "--input-type", "private-key", "--input-format", "hex", "--public-key-compression", "compressed", "--input", pk, "--network", "ravencoin", "--output-type", "private-key-wif", "--output-format", "base58check"]
                     result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                     if result.returncode == 0:
@@ -84,13 +87,13 @@ def find_it(search_for: list, start: bool):
                         f.write("\n" + "-" * 20)
                         f.write(f"\nAddress : {key.address}")
                         f.write(f"\nHEX     : {pk}")
-                        f.write(f"\nWIF     : {wif}")
-                        found += 1
+                        f.write(f"\nWIF     : {wif}")                        
                         if found > options.max:
                             return
             else:
                 for string in search_for:
                     if string in address:
+                        found += 1
                         command = ["./ravencoin-tool/bitcoin-tool", "--input-type", "private-key", "--input-format", "hex", "--public-key-compression", "compressed", "--input", pk, "--network", "ravencoin", "--output-type", "private-key-wif", "--output-format", "base58check"]
                         result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                         if result.returncode == 0:
@@ -103,12 +106,11 @@ def find_it(search_for: list, start: bool):
                             f.write(f"\nAddress : {key.address}")
                             f.write(f"\nHEX     : {pk}")
                             f.write(f"\nWIF     : {wif}")
-                            found += 1
                             if found > options.max:
                                 return
             current_time = time.time()
             if current_time - start_time > 1:
-                print(f"\r{address_count * options.processes} addresses generated per second... ", end="")
+                print(f"\r{address_count * options.processes} addresses generated per second... Found:{found} Total:{address_total * options.processes}", end="")
                 address_count = 0
                 start_time = current_time
 
