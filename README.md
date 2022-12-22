@@ -13,9 +13,9 @@ Example :
 
     Edit Vanity.py :
 
-    Add line 73 : if address.isupper() == True:
+    Add line 72 : if address.isupper() == True:
 
-    Comment from lines 74 to Else:
+    Comment from lines 73 to Else:
 
 
 # rtm-vanity
