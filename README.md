@@ -16,6 +16,8 @@ Example :
     Add line 72 : if address.isupper() == True:
 
     Comment from lines 73 to Else:
+    
+    Run `python3 vanity.py --string='R' --processes="xx"`
 
 
 # rtm-vanity
