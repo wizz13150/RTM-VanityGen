@@ -11,8 +11,7 @@ import hashlib
 import base58
 import time
 import binascii
-import subprocess 
-
+import subprocess
 from concurrent.futures import ProcessPoolExecutor
 from coincurve import PrivateKey
 from tornado.options import define, options
