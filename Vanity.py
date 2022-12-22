@@ -17,7 +17,6 @@ from coincurve import PrivateKey
 import base58
 from tornado.options import define, options
 import subprocess
-import secrets
 
 
 define("processes", default=4, help="Process count to start (default 4)", type=int)
