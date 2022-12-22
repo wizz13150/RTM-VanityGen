@@ -2,12 +2,20 @@ Wizz's Changes:
 - Parameter --start to search for string at the start of the address.
 - Show number of addresses generated per sec, for all threads. (~250K/sec for a Rysen 3900x with 24 threads)
 - Check if every pattern's characters are allowed or not. Print what's wrong.
+- Imported Ravencoin-Tool, using it to convert results to WIF.
 - Write results in a text file, in the current directory.
-- ToDo - Add conversion to Wallet Import Format using VanityWIF.py, change output format to show: address, hexkey, wifkey. But 20% slower.
+
+Example :
+
+![image](https://user-images.githubusercontent.com/22177081/209036934-6715ff07-1d09-4c46-bcf0-b440381f3402.png)
+
 - ToDo - Search Uppercase only:
-Edit Vanity.py :
-Add line 73 : if address.isupper() == True:
-Comment lines 74 to 84
+
+    Edit Vanity.py :
+
+    Add line 73 : if address.isupper() == True:
+
+    Comment from lines 74 to Else:
 
 
 # rtm-vanity
