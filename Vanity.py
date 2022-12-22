@@ -8,16 +8,19 @@ as long as you release the source code and modifications.
 
 
 
-from os import urandom
-from time import time
+
 import hashlib
+import base58
 import time
 import binascii
 import subprocess 
+
 from concurrent.futures import ProcessPoolExecutor
 from coincurve import PrivateKey
-import base58
 from tornado.options import define, options
+from os import urandom
+from time import time
+
 
 define("processes", default=4, help="Process count to start (default 4)", type=int)
 define("string", help="String to find in the address", type=str)
