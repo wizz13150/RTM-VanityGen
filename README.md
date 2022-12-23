@@ -10,16 +10,9 @@ Example :
 ![image](https://user-images.githubusercontent.com/22177081/209399927-4ab49fb2-2c8a-43b6-a876-6dcc146e47ae.png)
 
 
-- ToDo - Search Uppercase only:
-
-    Edit Vanity.py :
-
-    Add line 72 : if address.isupper() == True:
-
-    Comment from lines 73 to Else:
+- Search Uppercase only:
     
-    Run `python3 vanity.py --string='R' --processes="xx"` , or run vanity_upper.py
-
+    Run `python3 vanity_upper.py --string='R' --processes="xx"`
 
 # rtm-vanity
 A vanity address generator for Raptoreum - RTM
