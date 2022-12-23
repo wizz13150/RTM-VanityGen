@@ -39,9 +39,11 @@ class Key:
         self.address = self.address()
 
     def identifier(self):
+        """Renvoie le double hash de la clé publique selon les standards de BTC"""
         return hashlib.new('ripemd160', hashlib.sha256(binascii.unhexlify(self.public_key)).digest()).digest()
 
     def address(self):
+        """Renvoie l'adresse sérialisée correctement à partir de la clé publique selon les standards de BTC"""
         vh160 = int(NETWORK_PREFIX).to_bytes(length=1, byteorder="big") + self.identifier()  # Contenu brut
         chk = hashlib.sha256(hashlib.sha256(vh160).digest()).digest()[:4]
         return base58.b58encode(vh160 + chk).decode('utf-8')
@@ -99,7 +101,9 @@ def find_it(search_for: list, start: bool):
                                     return
             current_time = time.time()
             if current_time - start_time > 1:
-                print(f"\r{address_count * options.processes} addresses generated per second... Total: {address_total * options.processes / 1_000_000:.2f}m in {time.perf_counter() - timer:.0f} seconds", end="")
+                elapsed_time = time.perf_counter() - timer
+                minutes, seconds = divmod(elapsed_time, 60)
+                print(f"\r{address_count * options.processes} addresses generated per second... Total: {address_total * options.processes / 1_000_000:.2f}m in {minutes:.0f}min {seconds:.0f}sec", end="")
                 address_count = 0
                 start_time = current_time
 
@@ -121,6 +125,7 @@ def main():
     with ProcessPoolExecutor(max_workers=options.processes) as executor:
         for i in range(options.processes):
             executor.submit(find_it, search_for, options.start)
+
     for p in processes:
         p.join()
 
