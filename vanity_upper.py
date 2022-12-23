@@ -40,11 +40,9 @@ class Key:
         self.address = self.address()
 
     def identifier(self):
-        """Renvoie le double hash de la clé publique selon les standards de BTC"""
         return hashlib.new('ripemd160', hashlib.sha256(binascii.unhexlify(self.public_key)).digest()).digest()
 
     def address(self):
-        """Renvoie l'adresse sérialisée correctement à partir de la clé publique selon les standards de BTC"""
         vh160 = int(NETWORK_PREFIX).to_bytes(length=1, byteorder="big") + self.identifier()  # Contenu brut
         chk = hashlib.sha256(hashlib.sha256(vh160).digest()).digest()[:4]
         return base58.b58encode(vh160 + chk).decode('utf-8')
