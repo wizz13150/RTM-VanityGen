@@ -109,6 +109,7 @@ def find_it(search_for: list, start: bool):
 
 def main():
     options.parse_command_line()
+    print("")
     print("Looking for UPPERCASE")
     print(f"Output in {file}")
     print(f"{options.processes} threads used")
@@ -116,7 +117,7 @@ def main():
         print("Search at beginning of address")
     else:
         print("Search anywhere in the address")
-
+    print("")    
     processes = []
     if "|" in options.string:
         search_for = options.string.split("|")
@@ -125,7 +126,6 @@ def main():
     with ProcessPoolExecutor(max_workers=options.processes) as executor:
         for i in range(options.processes):
             executor.submit(find_it, search_for, options.start)
-
     for p in processes:
         p.join()
 
