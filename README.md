@@ -12,7 +12,15 @@ Example :
 
 - Search Uppercase only:
     
-    Run `python3 vanity_upper.py --string='R' --processes="xx"`
+    Run `python3 vanity_upper.py --processes="xx"`
+
+
+
+__________________________________________________________________________________________________________
+
+
+
+
 
 # rtm-vanity
 A vanity address generator for Raptoreum - RTM
