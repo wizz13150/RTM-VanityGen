@@ -28,7 +28,7 @@ define("max", default=100, help="max hit per process (default 100)", type=int)
 
 
 alphabet = '|123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz|'
-file = "./tata.txt"
+file = "./keys_upper.txt"
 NETWORK_PREFIX = 60
 
 
