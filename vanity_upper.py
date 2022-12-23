@@ -70,7 +70,7 @@ def find_it(string: str):
                     print(f"HEX     : {pk}")
                     print(f"WIF     : {wif}")
                     f.write("\n" + "-" * 20)
-                    f.write(f"Address : {key.address}")
+                    f.write(f"\nAddress : {key.address}")
                     f.write(f"\nHEX     : {pk}")
                     f.write(f"\nWIF     : {wif}")
                     found += 1
