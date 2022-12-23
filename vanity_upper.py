@@ -94,7 +94,7 @@ signal.signal(signal.SIGINT, exit_gracefully)
 def main():
     options.parse_command_line()
     print("")
-    print("Looking for '{}'".format(options.string))
+    print("Looking for UPPERCASE")
     print(f"Output logged in {file}")
     print(f"{options.processes} threads used")
     if not options.case:
