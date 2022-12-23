@@ -21,14 +21,13 @@ import sys
 
 
 define("processes", default=4, help="Process count to start (default 4)", type=int)
-define("string", help="String to find in the address", type=str)
-define("case", default=False, help="be case sensitive (default false)", type=bool)
 define("max", default=100, help="max hit per process (default 100)", type=int)
 
 
 alphabet = '|123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz|'
 file = "./keys_upper.txt"
 NETWORK_PREFIX = 60
+string = "R"
 
 
 class Key:
@@ -48,16 +47,12 @@ class Key:
         return base58.b58encode(vh160 + chk).decode('utf-8')
 
 
-def find_it(search_for: list):
+def find_it(string: str):
     found = 0
     address_count = 0
     address_total = 0
     start_time = time.time()
     timer = time.perf_counter()
-    invalid_chars = {char for char in options.string if (options.case and char not in alphabet) or (not options.case and char.lower() not in alphabet.lower()) and char != "|"}
-    if invalid_chars:
-        print(f"Characters '{', '.join(invalid_chars)}' not allowed, try again :'( See : '{alphabet}'.")
-        return
     with open(file, "a") as f:
         while found < options.max:
             pk = urandom(32).hex()
@@ -97,13 +92,10 @@ def main():
     print("Looking for UPPERCASE")
     print(f"Output logged in {file}")
     print(f"{options.processes} threads used")
-    if not options.case:
-        options.string = options.string.lower()
     processes = []
-    search_for = [options.string]
     with ProcessPoolExecutor(max_workers=options.processes) as executor:
         for i in range(options.processes):
-            executor.submit(find_it, search_for)
+            executor.submit(find_it, string)
     for p in processes:
         p.join()
 
