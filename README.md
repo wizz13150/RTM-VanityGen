@@ -13,7 +13,7 @@ ________________________________________________________________________________
 
 - Search UPPERCASE only:
     
-    Run `python3 vanity_upper.py --processes="xx"`  , --case unavailable
+    Run `python3 vanity_upper.py --string='R' --processes="xx"`  , --case unavailable
 
 Example :
 
