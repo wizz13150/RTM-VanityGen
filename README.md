@@ -9,14 +9,27 @@ Example :
 
 ![image](https://user-images.githubusercontent.com/22177081/209399927-4ab49fb2-2c8a-43b6-a876-6dcc146e47ae.png)
 
+__________________________________________________________________________________________________________
 
-- Search Uppercase only:
+- Search UPPERCASE only:
     
     Run `python3 vanity_upper.py --processes="xx"`
 
 Example :
 
 ![image](https://user-images.githubusercontent.com/22177081/209406755-91d9021e-9a88-49b6-af22-5b858be12470.png)
+
+__________________________________________________________________________________________________________
+
+- Search lowercase only:
+    
+    Run `python3 vanity_lower.py --processes="xx"`
+
+Example :
+
+![image](https://user-images.githubusercontent.com/22177081/209409850-0eed30ae-b397-4a96-b9be-0b139bd5f5c8.png)
+
+
 
 
 
