@@ -22,7 +22,6 @@ import sys
 
 define("processes", default=4, help="Process count to start (default 4)", type=int)
 define("string", help="String to find in the address", type=str)
-define("start", default=False, help="search for string at the start of the address (default false)", type=bool)
 define("case", default=False, help="be case sensitive (default false)", type=bool)
 define("max", default=100, help="max hit per process (default 100)", type=int)
 
@@ -51,7 +50,7 @@ class Key:
         return base58.b58encode(vh160 + chk).decode('utf-8')
 
 
-def find_it(search_for: list, start: bool):
+def find_it(search_for: list):
     found = 0
     address_count = 0
     address_total = 0
@@ -69,21 +68,19 @@ def find_it(search_for: list, start: bool):
             address_count += 1
             address_total += 1
             if address.isupper() == True:
-                for string in search_for:
-                    if string in address:
-                        command = ["./ravencoin-tool/bitcoin-tool", "--input-type", "private-key", "--input-format", "hex", "--public-key-compression", "compressed", "--input", pk, "--network", "ravencoin", "--output-type", "private-key-wif", "--output-format", "base58check"]
-                        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                        if result.returncode == 0:
-                            wif = result.stdout.decode().strip()
-                            print("\n" + "-" * 20)
-                            print(f"Address : {key.address}")
-                            print(f"HEX     : {pk}")
-                            print(f"WIF     : {wif}")
-                            f.write("\n" + "-" * 20)
-                            f.write(f"Address : {key.address}")
-                            f.write(f"\nHEX     : {pk}")
-                            f.write(f"\nWIF     : {wif}")
-                            found += 1
+                command = ["./ravencoin-tool/bitcoin-tool", "--input-type", "private-key", "--input-format", "hex", "--public-key-compression", "compressed", "--input", pk, "--network", "ravencoin", "--output-type", "private-key-wif", "--output-format", "base58check"]
+                result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                if result.returncode == 0:
+                    wif = result.stdout.decode().strip()
+                    print("\n" + "-" * 20)
+                    print(f"Address : {key.address}")
+                    print(f"HEX     : {pk}")
+                    print(f"WIF     : {wif}")
+                    f.write("\n" + "-" * 20)
+                    f.write(f"Address : {key.address}")
+                    f.write(f"\nHEX     : {pk}")
+                    f.write(f"\nWIF     : {wif}")
+                    found += 1
             current_time = time.time()
             if current_time - start_time >= 1:
                 elapsed_time = time.perf_counter() - timer
@@ -104,23 +101,11 @@ def main():
     print(f"{options.processes} threads used")
     if not options.case:
         options.string = options.string.lower()
-        print("Case InsEnsITivE")
-    else:
-        print("Case sensitive")
-    if options.start:
-        print("Search at beginning of address")
-    else:
-        print("Search anywhere in the address")
-    print("")
-
     processes = []
-    if "|" in options.string:
-        search_for = options.string.split("|")
-    else:
-        search_for = [options.string]
+    search_for = [options.string]
     with ProcessPoolExecutor(max_workers=options.processes) as executor:
         for i in range(options.processes):
-            executor.submit(find_it, search_for, options.start)
+            executor.submit(find_it, search_for)
     for p in processes:
         p.join()
 
