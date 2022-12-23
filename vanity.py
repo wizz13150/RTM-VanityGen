@@ -27,8 +27,8 @@ define("case", default=False, help="be case sensitive (default false)", type=boo
 define("max", default=100, help="max hit per process (default 100)", type=int)
 
 
-alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
-file = "./tata.txt"
+alphabet = '|123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz|'
+file = "./keys.txt"
 NETWORK_PREFIX = 60
 
 
@@ -115,7 +115,6 @@ def find_it(search_for: list, start: bool):
 
 def exit_gracefully(signum, frame):
     sys.exit(0)
-    
 signal.signal(signal.SIGINT, exit_gracefully)
 
 def main():
