@@ -28,7 +28,7 @@ define("max", default=100, help="max hit per process (default 100)", type=int)
 
 
 alphabet = '|123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz|'
-file = "./keys.txt"
+file = "./tata.txt"
 NETWORK_PREFIX = 60
 
 
@@ -119,18 +119,20 @@ signal.signal(signal.SIGINT, exit_gracefully)
 
 def main():
     options.parse_command_line()
+    print("")
     print("Looking for '{}'".format(options.string))
     print(f"Output in {file}")
+    print(f"{options.processes} threads used")
     if not options.case:
         options.string = options.string.lower()
         print("Case InsEnsITivE")
     else:
         print("Case sensitive")
-    print(f"{options.processes} threads used")
     if options.start:
         print("Search at beginning of address")
     else:
         print("Search anywhere in the address")
+    print("")
 
     processes = []
     if "|" in options.string:
