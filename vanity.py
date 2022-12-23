@@ -16,6 +16,8 @@ from coincurve import PrivateKey
 import base58
 from tornado.options import define, options
 import subprocess
+import signal
+import sys
 
 
 define("processes", default=4, help="Process count to start (default 4)", type=int)
@@ -109,6 +111,12 @@ def find_it(search_for: list, start: bool):
                 print(f"\r{address_count * options.processes} addresses generated per second... Total: {address_total * options.processes / 1_000_000:.2f}m in {time.perf_counter() - timer:.0f} seconds", end="")
                 address_count = 0
                 start_time = current_time
+            pass
+
+def exit_gracefully(signum, frame):
+    sys.exit(0)
+    
+signal.signal(signal.SIGINT, exit_gracefully)
 
 def main():
     options.parse_command_line()
