@@ -1,9 +1,36 @@
-Wizz's Changes:
-- Parameter --start to search for string at the start of the address.
+# Wizz's Changes:
+- Parameter --start to search for pattern at the start of the address.
 - Show number of addresses generated per sec, for all threads. (~320K/sec for a Rysen 3900x with 24 threads)
 - Check if every pattern's characters are allowed or not. Print what's wrong.
 - Imported Ravencoin-Tool, using it to convert results to WIF.
 - Write results in a text file, in the current directory. Set line 30.
+
+# HOW TO :
+
+ - On ubuntu 20.04 (WSL2 on Windows 10) from scratch :
+
+`sudo apt-get update`
+
+`sudo apt-get install libssl-dev libpcre3-dev`
+
+`sudo apt install python3-pip`
+
+`git clone https://github.com/wizz13150/RTM-VanityGen`
+
+`cd rtm-vanity/`
+
+`pip3 install -r requirements.txt`
+
+`cd ravencoin-tool/`
+
+`make`
+
+`cd ..`
+
+ - Ready. Now run it to generate addresses, example with 2 patterns and all params :
+ 
+`python3 vanity.py --string="RUGPULL|RTMRUG" --processes="20" --case --start --max="1000"`
+
 
 Example :
 
