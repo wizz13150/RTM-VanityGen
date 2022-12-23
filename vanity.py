@@ -107,11 +107,12 @@ def find_it(search_for: list, start: bool):
                             if found >= options.max:
                                 return
             current_time = time.time()
-            if current_time - start_time > 1:
-                print(f"\r{address_count * options.processes} addresses generated per second... Total: {address_total * options.processes / 1_000_000:.2f}m in {time.perf_counter() - timer:.0f} seconds", end="")
+            if current_time - start_time >= 1:
+                elapsed_time = time.perf_counter() - timer
+                minutes, seconds = divmod(elapsed_time, 60)
+                print(f"\r{address_count * options.processes} addresses generated per second... Total: {address_total * options.processes / 1_000_000:.2f}m in {minutes:.0f}min {seconds:.0f}sec", end="")
                 address_count = 0
                 start_time = current_time
-            pass
 
 def exit_gracefully(signum, frame):
     sys.exit(0)
