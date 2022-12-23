@@ -1,11 +1,10 @@
 """
-Test - Generate vanity ecdsa address for Raptoreum
+Test - Generate vanity ecdsa address for Raptoreum - v2
 
 Affero GPL
 You can use and modify freely, including in paid services and saas,
 as long as you release the source code and modifications.
 """
-
 
 from os import urandom
 from time import time
@@ -28,6 +27,7 @@ define("max", default=100, help="max hit per process (default 100)", type=int)
 
 alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 file = "./tata.txt"
+NETWORK_PREFIX = 60
 
 
 class Key:
@@ -44,7 +44,7 @@ class Key:
 
     def address(self):
         """Renvoie l'adresse sérialisée correctement à partir de la clé publique selon les standards de BTC"""
-        vh160 = int(60).to_bytes(length=1, byteorder="big") + self.identifier()  # Contenu brut
+        vh160 = int(NETWORK_PREFIX).to_bytes(length=1, byteorder="big") + self.identifier()  # Contenu brut
         chk = hashlib.sha256(hashlib.sha256(vh160).digest()).digest()[:4]
         return base58.b58encode(vh160 + chk).decode('utf-8')
 
@@ -54,14 +54,8 @@ def find_it(search_for: list, start: bool):
     address_count = 0
     address_total = 0
     start_time = time.time()
-    invalid_chars = []
-    for char in options.string:
-        if options.case:
-            if char not in alphabet and char != "|":
-                invalid_chars.append(char)
-        else:
-            if char.lower() not in alphabet.lower() and char != "|":
-                invalid_chars.append(char)
+    timer = time.perf_counter()
+    invalid_chars = {char for char in options.string if (options.case and char not in alphabet) or (not options.case and char.lower() not in alphabet.lower()) and char != "|"}
     if invalid_chars:
         print(f"Characters '{', '.join(invalid_chars)}' not allowed, try again :'( See : '{alphabet}'.")
         return
@@ -83,14 +77,14 @@ def find_it(search_for: list, start: bool):
                         if result.returncode == 0:
                             wif = result.stdout.decode().strip()
                             print("\n" + "-" * 20)
-                            print(f"\nAddress : {key.address}")
+                            print(f"Address : {key.address}")
                             print(f"HEX     : {pk}")
                             print(f"WIF     : {wif}")
                             f.write("\n" + "-" * 20)
-                            f.write(f"\nAddress : {key.address}")
+                            f.write(f"Address : {key.address}")
                             f.write(f"\nHEX     : {pk}")
                             f.write(f"\nWIF     : {wif}")                        
-                            if found > options.max:
+                            if found >= options.max:
                                 return
             else:
                 for string in search_for:
@@ -101,22 +95,22 @@ def find_it(search_for: list, start: bool):
                         if result.returncode == 0:
                             wif = result.stdout.decode().strip()
                             print("\n" + "-" * 20)
-                            print(f"\nAddress : {key.address}")
+                            print(f"Address : {key.address}")
                             print(f"HEX     : {pk}")
                             print(f"WIF     : {wif}")
                             f.write("\n" + "-" * 20)
-                            f.write(f"\nAddress : {key.address}")
+                            f.write(f"Address : {key.address}")
                             f.write(f"\nHEX     : {pk}")
                             f.write(f"\nWIF     : {wif}")
-                            if found > options.max:
+                            if found >= options.max:
                                 return
             current_time = time.time()
             if current_time - start_time > 1:
-                print(f"\r{address_count * options.processes} addresses generated per second... Total:{address_total * options.processes}", end="")
+                print(f"\r{address_count * options.processes} addresses generated per second... Total: {address_total * options.processes / 1_000_000:.2f}m in {time.perf_counter() - timer:.0f} seconds", end="")
                 address_count = 0
                 start_time = current_time
 
-if __name__ == "__main__":
+def main():
     options.parse_command_line()
     print("Looking for '{}'".format(options.string))
     print(f"Output in {file}")
@@ -125,7 +119,6 @@ if __name__ == "__main__":
         print("Case InsEnsITivE")
     else:
         print("Case sensitive")
-
     print(f"{options.processes} threads used")
     if options.start:
         print("Search at beginning of address")
@@ -140,6 +133,8 @@ if __name__ == "__main__":
     with ProcessPoolExecutor(max_workers=options.processes) as executor:
         for i in range(options.processes):
             executor.submit(find_it, search_for, options.start)
-
     for p in processes:
         p.join()
+
+if __name__ == "__main__":
+    main()
