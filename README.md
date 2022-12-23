@@ -14,6 +14,10 @@ Example :
     
     Run `python3 vanity_upper.py --processes="xx"`
 
+Example :
+
+![image](https://user-images.githubusercontent.com/22177081/209406755-91d9021e-9a88-49b6-af22-5b858be12470.png)
+
 
 
 __________________________________________________________________________________________________________
