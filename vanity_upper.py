@@ -113,7 +113,7 @@ signal.signal(signal.SIGINT, exit_gracefully)
 def main():
     options.parse_command_line()
     print("")
-    print("Looking for UPPERCASE and '{}'".format(options.string)")
+    print("Looking for UPPERCASE and '{}'".format(options.string))
     print(f"Output in {file}")
     print(f"{options.processes} threads used")
     if options.start:
