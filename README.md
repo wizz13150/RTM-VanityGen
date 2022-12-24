@@ -27,9 +27,9 @@
 
 `cd ..`
 
- - Ready. Now run it to generate addresses, example with 2 patterns and all params :
+ - Ready. Now run it to generate addresses, example with 2 patterns, case sensitive, pattern at start :
  
-`python3 vanity.py --string="RUGPULL|RTMRUG" --processes="20" --case --start --max="1000"`
+    Run `python3 vanity.py --string="RUGPULL|RTMRUG" --processes="20" --case --start`
 
 
 Example :
@@ -40,7 +40,7 @@ ________________________________________________________________________________
 
 - Search UPPERCASE only:
     
-    Run `python3 vanity_upper.py --processes="xx"`  , --case unavailable
+    Run `python3 vanity_upper.py --string="RUGPULL|RTMRUG" --processes="20" --start` , --case unavailable
 
 Example :
 
@@ -50,7 +50,7 @@ ________________________________________________________________________________
 
 - Search lowercase only:
     
-    Run `python3 vanity_lower.py --processes="xx"`  , --case unavailable
+    Run `python3 vanity_lower.py --string="RUGPULL|RTMRUG" --processes="20" --start`  , --case unavailable
 
 Example :
 
