@@ -27,10 +27,9 @@
 
 `cd ..`
 
- - Ready. Now run it to generate addresses, example with 2 patterns, case sensitive, pattern at start :
+ - Ready. Now run it to generate addresses, example with 2 patterns, case sensitive, pattern at start:
  
     Run `python3 vanity.py --string="RUGPULL|RTMRUG" --processes="20" --case --start`
-
 
 Example :
 
@@ -58,9 +57,11 @@ Example :
 
 
 
-
-
 __________________________________________________________________________________________________________
+
+ - Import in your wallet console using:
+ 
+`importprivkey "WIFKey" "AddressLabel" false`
 
 __________________________________________________________________________________________________________
 
