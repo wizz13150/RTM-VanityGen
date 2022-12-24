@@ -43,7 +43,7 @@ ________________________________________________________________________________
 
 - Search UPPERCASE only:
     
-    Run `python3 vanity_upper.py --string="RUGPULL|RTMRUG" --processes="20" --start` , --case unavailable
+    Run `python3 vanity_upper.py --string="R" --processes="20"` , --case unavailable
 
 Example :
 
@@ -51,9 +51,9 @@ Example :
 
 __________________________________________________________________________________________________________
 
-- Search lowercase only (except 2 first):
+- Search lowercase only (except 2 first chars):
     
-    Run `python3 vanity_lower.py --string="RUGPULL|RTMRUG" --processes="20" --start`  , --case unavailable
+    Run `python3 vanity_lower.py --string="R" --processes="20"`  , --case unavailable
 
 Example :
 
