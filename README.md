@@ -59,7 +59,7 @@ Example :
 
 __________________________________________________________________________________________________________
 
- - Import in your wallet console using:
+ - Import in Raptoreum Core's console using:
  
 `importprivkey "WIFKey" "AddressLabel" false`
 
