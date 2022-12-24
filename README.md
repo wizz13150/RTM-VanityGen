@@ -17,7 +17,7 @@
 
 `git clone https://github.com/wizz13150/RTM-VanityGen`
 
-`cd rtm-vanity/`
+`cd RTM-VanityGen`
 
 `pip3 install -r requirements.txt`
 
