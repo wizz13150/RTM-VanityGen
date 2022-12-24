@@ -75,13 +75,6 @@ ________________________________________________________________________________
 
 
 
-# rtm-vanity
-A vanity address generator for Raptoreum - RTM
-
-## Install
-
-`pip3 install -r requirements.txt`
-
 ## Usage
 
 Simple run with default params, string is the thing to search for.   
