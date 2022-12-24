@@ -48,7 +48,7 @@ Example :
 
 __________________________________________________________________________________________________________
 
-- Search lowercase only:
+- Search lowercase only (except 2 first):
     
     Run `python3 vanity_lower.py --string="RUGPULL|RTMRUG" --processes="20" --start`  , --case unavailable
 
