@@ -27,7 +27,11 @@
 
 `cd ..`
 
- - Ready. Now run it to generate addresses, example with 2 patterns, case sensitive, pattern at start:
+ - Ready. 
+ 
+ # Examples 
+
+Now run it to generate addresses, example with 2 patterns, case sensitive, pattern at start:
  
     Run `python3 vanity.py --string="RUGPULL|RTMRUG" --processes="20" --case --start`
 
